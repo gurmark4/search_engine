@@ -156,6 +156,6 @@ TEST(TestCaseSearchServer, TestTop5) {
 	idx.UpdateDocumentBase(docs);
 	SearchServer srv(idx);
 	std::vector<vector<RelativeIndex>> result = srv.make_ans(request);
-	for (int j = 0; j < result.size(); j++) for (int i = 0; i < result[j].size(); i++) std::cout << expected[j][i].rank - result[j][i].rank << "  \n";
+//	for (int j = 0; j < result.size(); j++) for (int i = 0; i < result[j].size(); i++) std::cout << expected[j][i].rank - result[j][i].rank << "  \n";
 		ASSERT_EQ(result, expected);
 };
