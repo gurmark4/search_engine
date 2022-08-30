@@ -9,13 +9,13 @@ std::vector<std::vector<RelativeIndex>> SearchServer::make_ans(const std::vector
 {
 	std::vector<std::vector<RelativeIndex>> ans; // итоговый ответ на все запросы
 	std::vector<std::string> uniq_word; // уникальные слова запроса
+	std::map<size_t, float> abs_Index;
 	std::vector<size_t> abs_Index_docid;  // документы, в которых встречаются уникальные слова из запроса
 	std::vector<float> abs_Index_rank;  // абсолютная релевантность уникальных слова из запроса
 	std::vector<RelativeIndex> req_ans;  // ответы на текущий запрос
 	std::string s;  // рабочая переменная
 	setlocale(LC_ALL, "Russian");
 
-//	cout << queries_input.size() << " - кол-во запросов\n";
 	// Цикл по запросам
 	for (int i = 0; i < queries_input.size(); i++) {
 		std::istringstream iss(queries_input[i], std::istringstream::in);
@@ -24,26 +24,31 @@ std::vector<std::vector<RelativeIndex>> SearchServer::make_ans(const std::vector
 		while (iss >> s)
 		{
 			int j = -1;
-			for (int k = 0; k < uniq_word.size(); k++) 		if (s == uniq_word[k]) { j = 1; break; }
+			for (int k = 0; k < uniq_word.size(); k++) 		
+				if (s == uniq_word[k]) { j = 1; break; }
 			if (j < 0) uniq_word.push_back(s);
 		}
-		abs_Index_docid.clear();
-		abs_Index_rank.clear();
+		abs_Index.clear();
 		for (int k = 0; k < uniq_word.size(); k++) {
 			for (int j = 0; j < _index.GetWordCount(uniq_word[k]).size(); j++) {
 				int l = -1;
-				for (int n = 0; n < abs_Index_docid.size(); n++) if (abs_Index_docid[n] == _index.GetWordCount(uniq_word[k])[j].doc_id) { 
-					abs_Index_rank[n] += float(_index.GetWordCount(uniq_word[k])[j].count);
+					for (map<size_t, float>::iterator it = abs_Index.begin(); it != abs_Index.end(); ++it)
+						if (_index.GetWordCount(uniq_word[k])[j].doc_id == it->first) {
+							it->second += float(_index.GetWordCount(uniq_word[k])[j].count);
 					l = 1;                                                                                                              
 				}
-				if (l < 0) { 
-					abs_Index_docid.push_back(_index.GetWordCount(uniq_word[k])[j].doc_id);
-					abs_Index_rank.push_back(float(_index.GetWordCount(uniq_word[k])[j].count));
-				           }
+				if (l < 0) abs_Index.insert(pair<size_t, float>(_index.GetWordCount(uniq_word[k])[j].doc_id, float(_index.GetWordCount(uniq_word[k])[j].count)));
 			}
 		 }
+		abs_Index_docid.clear();
+		abs_Index_rank.clear();
 		size_t nmax = 0;
 		float rmax = 0.;
+		for (map<size_t, float>::iterator it = abs_Index.begin(); it != abs_Index.end(); ++it)
+		{
+			abs_Index_docid.push_back(it->first);
+			abs_Index_rank.push_back(it->second);
+		}
 		int k = 0;
 		for (int n = 0; n < abs_Index_docid.size(); n++) if (abs_Index_rank[n] > rmax) { rmax = abs_Index_rank[n]; nmax = n; }
 		req_ans.clear();
