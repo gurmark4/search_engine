@@ -76,9 +76,8 @@ int main()
 	ans = ssrv->make_ans(requests);
 	cjs->putAnswers(ans);
 	std::cout << "  Answers:  " << ans.size() << " \n";
-	//testing::InitGoogleTest();
-	//int i = RUN_ALL_TESTS();
-
+	
+	char c;
 	long l0 = time(nullptr);
 	long n = time_update;
 	while (true) {
@@ -91,7 +90,10 @@ int main()
 			else std::cout << sec << " sec "  << "\n";
 			l0 = l;
 			if (n <= 0) {
-				std::cout << " Update! \n";
+				
+				std::cout << " Update/exit?  any key /n \n";
+				std::cin >> c;
+				if (c == 'n') exit(1);
 				idx->UpdateDocumentBase(docs);
 				SearchServer* ssrv = new SearchServer(*idx);
 				ans = ssrv->make_ans(requests);
