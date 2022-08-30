@@ -177,7 +177,9 @@ void ConverterJSON::putAnswers(std::vector<std::vector<RelativeIndex>>	answers)
 		}
 		if (i < answers.size() - 1) fljs << "                     }," << endl;
 		else fljs << "                     }" << endl;
+//		fljs << "                     }" << endl;
 	}
+	fljs << "                }" << endl;
 	fljs << "}" << endl;
 	fljs.close();
 };
