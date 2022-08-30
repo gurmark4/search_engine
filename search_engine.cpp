@@ -2,16 +2,13 @@
 //
 
 #include "search_engine.h"
-
 #include "ConverterJSON.h"
-
 #include "InvertedIndex.h"
 #include "SearchServer.h"
-//#include "mTEST/mTEST.h"
 
 using namespace N;
-
 using namespace std;
+
 #if defined(_WIN64)
 #define PLATFORM_NAME "x64" // Windows
 #elif defined(_WIN32)
