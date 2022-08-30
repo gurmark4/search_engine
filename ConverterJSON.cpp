@@ -14,7 +14,7 @@ using namespace std;
 void m_continue()
 {
 	char c;
-	std::cout << " Continue? .../n \n";
+	std::cout << " Continue? std::cout << " Continue?   any key /n \n";/n \n";
 	std::cin >> c;
 	if (c == 'n') exit(1);
 
