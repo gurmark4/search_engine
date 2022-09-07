@@ -88,7 +88,7 @@ int main()
 			l0 = l;
 			if (n <= 0) {
 				
-				std::cout << " Update/exit?  any key /n \n";
+				std::cout << " Update/exit?  y/n \n";
 				std::cin >> c;
 				if (c == 'n') exit(1);
 				idx->UpdateDocumentBase(docs);
