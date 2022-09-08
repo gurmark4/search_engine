@@ -30,17 +30,17 @@ include(FetchContent)
 
 FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.10.5/json.tar.xz)
 FetchContent_MakeAvailable(json)
-
+add_subdirectory(mTEST)
 add_executable (search_engine "search_engine.cpp" "search_engine.h" "ConverterJSON.cpp" "InvertedIndex.cpp" "InvertedIndex.h" "SearchServer.cpp" "SearchServer.h" "ConverterJSON.h")
-add_executable (mTEST  "ConverterJSON.cpp" "InvertedIndex.cpp" "InvertedIndex.h" "SearchServer.cpp" "SearchServer.h" "ConverterJSON.h" "mTEST/mTEST.cpp" "mTEST/mTEST.h")
+# add_executable (mTEST  "ConverterJSON.cpp" "InvertedIndex.cpp" "InvertedIndex.h" "SearchServer.cpp" "SearchServer.h" "ConverterJSON.h" "mTEST/mTEST.cpp" "mTEST/mTEST.h")
 
 target_link_libraries(search_engine PRIVATE nlohmann_json::nlohmann_json)
 
 target_link_libraries(search_engine PRIVATE gtest_main)
 
 
-target_link_libraries(mTEST PRIVATE nlohmann_json::nlohmann_json)
+# target_link_libraries(mTEST PRIVATE nlohmann_json::nlohmann_json)
 
-target_link_libraries(mTEST PRIVATE gtest_main)
+# target_link_libraries(mTEST PRIVATE gtest_main)
 
 include(GoogleTest)
