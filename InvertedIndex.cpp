@@ -66,7 +66,8 @@ void thdocs(map<string, vector<Entry>>& freq_dictionary,
 	std::vector<Entry> InvertedIndex::GetWordCount(const std::string& word)
 	{
 		std::vector<Entry> freq_requests; // список запросов
-		for (map<string, vector<Entry>>::iterator it = freq_dictionary.begin(); it != freq_dictionary.end(); ++it)
+		for (map<string, vector<Entry>>::iterator it = freq_dictionary.begin(); it != freq_dictionary.end(); ++it){
 			if (word == it->first) freq_requests = it->second;
+		}
 		return freq_requests;
 	};
