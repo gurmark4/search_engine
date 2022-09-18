@@ -4,6 +4,7 @@
 using namespace std;
 
 std::mutex freq_dictionary_mtx;
+std::mutex single_word_mtx;
 
 void thdocs(map<string, vector<Entry>>& freq_dictionary,
 	const string& iss,
@@ -20,6 +21,7 @@ void thdocs(map<string, vector<Entry>>& freq_dictionary,
 	text_of_file.str(iss);
 	while (text_of_file >> single_word)
 	{
+		single_word_mtx.lock();
 		int k1 = -1;
 		for (map<string, vector<Entry>>::iterator it = freq_dictionary.begin(); it != freq_dictionary.end(); ++it) {
 			if (single_word == it->first) {
@@ -47,6 +49,7 @@ void thdocs(map<string, vector<Entry>>& freq_dictionary,
 			freq_dictionary[single_word] = vee;
 			freq_dictionary_mtx.unlock();
 		}
+		single_word_mtx.unlock();
 	}
 }
 	void InvertedIndex::UpdateDocumentBase(std::vector<std::string> input_docs)
