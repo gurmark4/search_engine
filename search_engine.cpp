@@ -52,22 +52,19 @@ const char* get_platform_name() {
 int main()
 {
 	ConverterJSON* cjs = new ConverterJSON();
-	InvertedIndex* idx = new InvertedIndex();
 	vector<string> docs, requests;
 	std::vector<std::vector<RelativeIndex>> ans;
 	setlocale(LC_ALL, "Russian");
 
 	std::cout << (get_platform_name()) << "  \n";
-
 	docs = cjs->GetTextDocuments();
-	// for (int i = 0; i < docs.size(); i++) std::cout << docs[i] << "  i= " << i << "  \n";
 	int max_responses = cjs->GetResponsesLimit();
 	int time_update = cjs->GetTimeUpdate();
 	std::cout << "  max_responses: " << max_responses << "  \n";
 	std::cout << "  time_update: " << time_update << "  \n";
 	requests = cjs->GetRequests();
-	// for (int i = 0; i < requests.size(); i++) std::cout << requests[i] << "  i= " << i << "  requests\n";
-
+	
+	InvertedIndex* idx = new InvertedIndex();
 	idx->UpdateDocumentBase(docs);
 	SearchServer* ssrv = new SearchServer(*idx);
 	ans = ssrv->make_ans(requests);
