@@ -52,11 +52,13 @@ void thdocs(map<string, vector<Entry>>& freq_dictionary,
 }
 	void InvertedIndex::UpdateDocumentBase(std::vector<std::string> input_docs)
 	{
-		std::vector<std::thread> fls;
+		std::vector<std::thread> fls(input_docs.size());
 		freq_dictionary.clear();
-		for (size_t i = 0; i < input_docs.size(); i++) {
+		std::string ss;
+		for (int i = 0; i < input_docs.size(); i++) {
 			std::istringstream iss(input_docs[i], std::istringstream::in);
-			fls.push_back(thread(thdocs, ref(freq_dictionary), iss.str(), i));
+			ss = iss.str();
+			fls[i]=(thread(thdocs, ref(freq_dictionary), ss, i));
 				this_thread::sleep_for(chrono::milliseconds(100));
 		}
 		for (size_t i = 0; i < input_docs.size(); i++) if (fls[i].joinable()) fls[i].join();
