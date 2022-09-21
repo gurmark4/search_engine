@@ -90,7 +90,7 @@ int main()
 				
 				std::cout << " Update/exit?  y/n \n";
 				std::cin >> c;
-				if (c == 'n') exit(1);
+				if (c == 'n') return 0;
 				idx->UpdateDocumentBase(docs);
 				SearchServer* ssrv = new SearchServer(*idx);
 				ans = ssrv->make_ans(requests);
